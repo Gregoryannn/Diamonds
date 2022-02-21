@@ -1,2 +1,2 @@
 # Diamonds-JacaScript
-Diamonds-JacaScript game 💎💎
+Diamonds-JavaScript game 💎💎

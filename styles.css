@@ -25,7 +25,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1);
     transform: translate(-50%, -50%) scale(var(--scale-value));
     transform-origin: center;
     width: 640px;
@@ -83,4 +82,34 @@ body {
 
 .start-screen__button--is-settings:hover {
     background-image: url('./images/button-settings-hover.png');
+}
+
+.level-select {
+    display: flex;
+    padding: 175px 125px;
+    flex-wrap: wrap;
+    background-image: url('./images/levelselectscreen.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.level-select__button {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    border: 0;
+    font-size: 20px;
+    background-image: url('./images/levelicon.png');
+    background-size: cover;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.level-select__button:hover {
+    background-image: url('./images/leveliconhover.png');
+}
+
+.hidden {
+    display: none;
 }

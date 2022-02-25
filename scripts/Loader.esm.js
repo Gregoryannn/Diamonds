@@ -1,11 +1,12 @@
 import { Common, HIDDEN_CLASS, HIDDEN_SCREEN, VISIBLE_SCREEN } from './Common.esm.js';
 
-const DATALOADED_EVENT_NAME = 'dataLoaded'
 const LOADER_ELEMENT_ID = 'js-loading-screen';
 const LOAD_CURRENT_ID = 'js-loading-screen-current';
 const LOAD_TOTAL_ID = 'js-loading-screen-total';
 
-class Lodaer extends Common {
+export const DATALOADED_EVENT_NAME = 'dataLoaded'
+
+class Loader extends Common {
     constructor() {
         super(LOADER_ELEMENT_ID);
         this.bindToElements()

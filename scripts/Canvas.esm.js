@@ -1,4 +1,5 @@
 import { Common } from './Common.esm.js';
+import { media } from './Media.esm.js';
 
 const GAME_SCREEN_ID = 'js-game-screen';
 
@@ -13,10 +14,18 @@ class Canvas extends Common {
 
     configureCanvas() {
         this.context = this.element.getContext('2d')
-        this.context.canvas.width = this.CANVAS_WIDTH;
-        this.context.canvas.height = this.CANVAS_HEIGHT;
+        this.context.canvas.width = CANVAS_WIDTH;
+        this.context.canvas.height = CANVAS_HEIGHT;
         this.context.font = '20px Arial white';
         this.context.fillStyle = 'white';
+    }
+
+    drawGameOnCanvas() {
+        this.drawBackground();
+    }
+
+    drawBackground() {
+        this.context.drawImage(media.backgroundImage, 0, 0)
     }
 }
 

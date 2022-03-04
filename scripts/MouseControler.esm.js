@@ -23,4 +23,4 @@ class MouseControler {
     }
 }
 
-export const mauseControler = new MauseControler();
+export const mouseControler = new MouseControler();

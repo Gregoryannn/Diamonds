@@ -1,10 +1,14 @@
 import { Common, HIDDEN_SCREEN, VISIBLE_SCREEN } from './Common.esm.js'
 import { levelSelect } from './LevelSelect.esm.js'
 
-const SCALE_PROPERTY = '--scale-value'
+
 const START_SCREEN_SETTINGS_BUTTON_ID = 'js-settings-button';
 const START_SCREEN_GAME_BUTTON_ID = 'js-start-game';
 const START_SCREEN_ID = 'js-start-screen';
+
+export const SCALE_PROPERTY = '--scale-value';
+
+
 class MainMenu extends Common {
     constructor() {
         super(START_SCREEN_ID);

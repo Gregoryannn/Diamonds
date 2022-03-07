@@ -27,6 +27,7 @@ class MainMenu extends Common {
     }
 
     showLevelScreen() {
+        levelSelect.createButtons();
         console.log('wybor poziomu')
         this.changeVisibilityScreen(this.element, HIDDEN_SCREEN)
         this.changeVisibilityScreen(levelSelect.element, VISIBLE_SCREEN)

@@ -2,7 +2,8 @@ import { Common, HIDDEN_SCREEN, VISIBLE_SCREEN } from './Common.esm.js';
 import { canvas } from './Canvas.esm.js';
 import { mainMenu } from './MainMenu.esm.js'
 import { userData } from './UserData.esm.js';
-
+import { levelSelect } from './LevelSelect.esm.js';
+import { game } from './Game.esm.js'
 
 
 const RESULT_SCREEN_BACK_BUTTON_ID = 'js-back-to-levels';
@@ -12,6 +13,9 @@ const RESULT_SCREEN_HEADER_ID = 'js-game-result';
 const RESULT_SCREEN_HIGH_SCORES_ID = 'js-high-scores';
 const RESULT_SCREEN_USER_POINTS_ID = 'js-user-points';
 const RESULT_SCREEN_RESTART_LEVEL_BUTTON_ID = 'js-restart-level';
+
+
+
 
 class ResultScreen extends Common {
     constructor() {
@@ -28,7 +32,8 @@ class ResultScreen extends Common {
         const restartButtonElement = this.bindToElement(RESULT_SCREEN_RESTART_LEVEL_BUTTON_ID);
 
         backButtonElement.addEventListener('click', () => this.backButtonClick());
-        restartButtonElement.addEventListener('click', () => console.log('click'));
+        restartButtonElement.addEventListener('click', () => this.restartLevelClick());
+
     }
 
     viewResultScreen(isGameWin, playerPoints, level) {
@@ -48,6 +53,12 @@ class ResultScreen extends Common {
         this.changeVisibilityScreen(canvas.element, HIDDEN_SCREEN);
         this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
         mainMenu.showLevelScreen();
+    }
+
+    restartLevelClick() {
+        this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
+        levelSelect.loadLevel(game.gameState.level)
+
     }
 }
 

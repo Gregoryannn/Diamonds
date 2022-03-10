@@ -19,18 +19,24 @@ const TRANSPARENCY_SPEED = 10;
 
 
 
+
 class Game extends Common {
     constructor() {
         super();
     }
 
-    playLevel(level) {
+    playLevel(level) {s
         const { numberOfMovements, pointsToWin, board } = gameLevels[level - 1];
         window.removeEventListener(DATALOADED_EVENT_NAME, this.playLevel);
         this.gameState = new GameState(level, numberOfMovements, pointsToWin, board, media.diamondsSprite);
         this.changeVisibilityScreen(canvas.element, VISIBLE_SCREEN);
-        this.animate()
+        media.isInLevel = true;
+        media.playBackgroundMusic();
+        this.animate();
     }
+}
+
+
     animate() {
         this.handleMouseState();
         this.handleMouseClick();
@@ -44,24 +50,33 @@ class Game extends Common {
         this.gameState.getGameBoard().forEach(diamond => diamond.draw());
         this.checkPosibilityMovement();
         this.checkEndOfGame();
-    }
+}
+
+
+
     handleMouseState() {
         const isSwaping = !this.gameState.getIsSwaping();
         const isMoving = !this.gameState.getIsMoving();
         if (mouseControler.clicked && isSwaping && isMoving) {
             mouseControler.state++;
         }
-    }
+}
+
+
     handleMouseClick() {
         if (!mouseControler.clicked) {
             return;
-        }
+    }
+
+
         const xClicked = Math.floor((mouseControler.x - GAME_BOARD_X_OFFSET) / DIAMOND_SIZE);
         const yClicked = Math.floor((mouseControler.y - GAME_BOARD_Y_OFFSET) / DIAMOND_SIZE);
         if (!yClicked || xClicked >= DIAMONDS_ARRAY_WIDTH || yClicked >= DIAMONDS_ARRAY_HEIGHT) {
             mouseControler.state = 0;
             return;
-        }
+    }
+
+
         if (mouseControler.state === 1) {
             mouseControler.firstClick = {
                 x: xClicked,
@@ -80,13 +95,21 @@ class Game extends Common {
             ) {
                 return;
             }
+
+
+
             this.swapDiamonds();
+            media.playSwapSound();
+
             this.gameState.setIsSwaping(true);
             this.gameState.decreasePointsMovement();
             mouseControler.state = 0;
         }
         mouseControler.clicked = false;
-    }
+}
+
+
+
     findMatches() {
         this.gameState.getGameBoard().forEach((diamond, index, diamonds) => {
             if (diamond.kind === EMPTY_BLOCK || index < DIAMONDS_ARRAY_WIDTH || index === LAST_ELEMENT_DIAMONDS_ARRAY) {
@@ -115,7 +138,11 @@ class Game extends Common {
                 }
             }
         });
-    }
+}
+
+
+
+
     swapDiamonds() {
         const firstDiamond = mouseControler.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseControler.firstClick.x;
         const secondDiamond = mouseControler.secondClick.y * DIAMONDS_ARRAY_WIDTH + mouseControler.secondClick.x;
@@ -140,7 +167,11 @@ class Game extends Common {
                 this.gameState.setIsMoving(true);
             }
         })
-    }
+}
+
+
+
+
     hideAnimation() {
         if (this.gameState.getIsMoving()) {
             return;
@@ -151,14 +182,22 @@ class Game extends Common {
                 this.gameState.setIsMoving(true);
             }
         })
-    }
+}
+
+
+
+
     countScores() {
         this.scores = 0;
         this.gameState.getGameBoard().forEach(diamond => this.scores += diamond.match);
         if (!this.gameState.getIsMoving() && this.scores) {
             this.gameState.increasePlayerPoints(this.scores);
         }
-    }
+}
+
+
+
+
     revertSwap() {
         if (this.gameState.getIsSwaping() && !this.gameState.getIsMoving()) {
             if (!this.scores) {
@@ -167,7 +206,10 @@ class Game extends Common {
             }
             this.gameState.setIsSwaping(false);
         }
-    }
+}
+
+
+
     clearMatched() {
         if (this.gameState.getIsMoving()) {
             return;
@@ -185,6 +227,7 @@ class Game extends Common {
                 }
             }
         });
+
         this.gameState.getGameBoard().forEach((diamond, index) => {
             const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH) * DIAMOND_SIZE;
             if (index < DIAMONDS_ARRAY_WIDTH) {
@@ -199,6 +242,8 @@ class Game extends Common {
             }
         })
     }
+
+
 
 
     checkPosibilityMovement() {
@@ -389,6 +434,9 @@ class Game extends Common {
 
     checkEndOfGame() {
         if (!this.gameState.getLeftMovement() && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()) {
+            media.isInLevel = false;
+            media.stopBackgroundMusic();
+
             const currentLevel = Number(this.gameState.level);
 
 

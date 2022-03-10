@@ -1,5 +1,7 @@
 import { Common, HIDDEN_SCREEN, VISIBLE_SCREEN } from './Common.esm.js'
 import { levelSelect } from './LevelSelect.esm.js'
+import { settings } from './Settings.esm.js'
+
 
 
 const START_SCREEN_SETTINGS_BUTTON_ID = 'js-settings-button';
@@ -16,6 +18,8 @@ class MainMenu extends Common {
         this.resizeGameWindow();
         window.addEventListener('resize', this.resizeGameWindow);
     }
+
+
     bindToGameElements() {
         const gameStartButton = this.bindToElement(START_SCREEN_GAME_BUTTON_ID);
         const gameSettingsButton = this.bindToElement(START_SCREEN_SETTINGS_BUTTON_ID);
@@ -26,16 +30,24 @@ class MainMenu extends Common {
         gameSettingsButton.addEventListener('click', () => this.showSettingsScreen())
     }
 
+
+
     showLevelScreen() {
         levelSelect.createButtons();
         console.log('wybor poziomu')
-        this.changeVisibilityScreen(this.element, HIDDEN_SCREEN)
-        this.changeVisibilityScreen(levelSelect.element, VISIBLE_SCREEN)
+        this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
+        this.changeVisibilityScreen(levelSelect.element, VISIBLE_SCREEN);
     }
 
+
+
+
     showSettingsScreen() {
-        console.log('wybor ustawien')
+        this.changeVisibilityScreen(settings.element, VISIBLE_SCREEN);
     }
+
+
+
     resizeGameWindow() {
         const { innerWidth: width, innerHeight: height } = window;
         const scale = Math.min(width / CANVAS_WIDTH, height / CANVAS_HEIGHT);

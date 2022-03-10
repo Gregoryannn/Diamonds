@@ -2,7 +2,7 @@ class Media {
     constructor() {
         this._backgroundImage = null;
         this._diamondsSprite = null;
-        this.musicVolume = 0.3;
+        this.musicVolume = 0.2;
         this.soundVolume = 0.5;
         this.allowedMusic = true;
         this.allowedSound = true;

@@ -2,12 +2,14 @@ import { DIAMOND_SIZE } from './Diamond.esm.js';
 
 export const EMPTY_BLOCK = 99;
 export const GAME_BOARD_X_OFFSET = 40;
-export const GAME_BOARD_Y_OFFSET = 20;
+export const GAME_BOARD_Y_OFFSET = 5;
+
+
 
 export const gameLevels = [{
         level: 1,
-    numberOfMovements: 2,
-    pointsToWin: 100,
+    numberOfMovements: 30,
+    pointsToWin: 5000,
 
 
         board: [
@@ -119,7 +121,7 @@ export const gameLevels = [{
             { x: 2 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 2, column: 3, kind: 2 },
             { x: 3 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 3, column: 3, kind: 3 },
             { x: 4 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 4, column: 3, kind: 0 },
-            { x: 5 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 5, column: 3, kind: 0 },
+            { x: 5 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 5, column: 3, kind: 2 },
             { x: 6 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 6, column: 3, kind: 0 },
             { x: 7 * DIAMOND_SIZE, y: 2 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 7, column: 3, kind: 1 },
             { x: 0 * DIAMOND_SIZE, y: 3 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 0, column: 4, kind: 3 },
@@ -147,7 +149,7 @@ export const gameLevels = [{
             { x: 6 * DIAMOND_SIZE, y: 5 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 6, column: 6, kind: 0 },
             { x: 7 * DIAMOND_SIZE, y: 5 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 7, column: 6, kind: 0 },
             { x: 0 * DIAMOND_SIZE, y: 6 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 0, column: 7, kind: 4 },
-            { x: 1 * DIAMOND_SIZE, y: 6 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 1, column: 7, kind: 4 },
+            { x: 1 * DIAMOND_SIZE, y: 6 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 1, column: 7, kind: 2 },
             { x: 2 * DIAMOND_SIZE, y: 6 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 2, column: 7, kind: 4 },
             { x: 3 * DIAMOND_SIZE, y: 6 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 3, column: 7, kind: 1 },
             { x: 4 * DIAMOND_SIZE, y: 6 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row: 4, column: 7, kind: 2 },

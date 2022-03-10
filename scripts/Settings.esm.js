@@ -1,4 +1,8 @@
 import { Common, HIDDEN_SCREEN } from './Common.esm.js';
+import { media } from './Media.esm.js'
+
+
+
 
 const MUSIC_ON_OFF_BUTTON_ID = 'js-music-on-off';
 const MUSIC_VOLUME_DOWN_ID = 'js-music-volume-decrease';
@@ -17,9 +21,23 @@ class Settings extends Common {
 
     bindToElements() {
         const exitSettingsElement = this.bindToElement(SETTINGS_EXIT_BUTTON_ID);
+        const musciOnOffElement = this.bindToElement(MUSIC_ON_OFF_BUTTON_ID);
+        const musciVolumeUpElement = this.bindToElement(MUSIC_VOLUME_UP_ID);
+        const musciVolumeDownElement = this.bindToElement(MUSIC_VOLUME_DOWN_ID);
+        const soundOnOffElement = this.bindToElement(SOUND_ON_OFF_BUTTON_ID);
+        const soundVolumeUpElement = this.bindToElement(SOUND_VOLUME_UP_ID);
+        const soundVolumeDownElement = this.bindToElement(SOUND_VOLUME_DOWN_ID);
 
-        exitSettingsElement.addEventListener('click', () => this.changeVisibilityScreen(this.element, HIDDEN_SCREEN))
+        exitSettingsElement.addEventListener('click', () => this.changeVisibilityScreen(this.element, HIDDEN_SCREEN));
+        musciOnOffElement.addEventListener('click', () => media.toggleMusicOnOff());
+        musciVolumeUpElement.addEventListener('click', () => media.increaseMusicVolume());
+        musciVolumeDownElement.addEventListener('click', () => media.decreaseMusicVolume());
+        soundOnOffElement.addEventListener('click', () => media.toggleSoundOnOff());
+        soundVolumeUpElement.addEventListener('click', () => media.increaseSoundVolume());
+        soundVolumeDownElement.addEventListener('click', () => media.decreaseSoundVolume());
     }
-}
+
+   }
+
 
 export const settings = new Settings();

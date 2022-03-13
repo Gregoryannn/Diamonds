@@ -28,12 +28,11 @@ class Loader extends Common {
 
 
 
-
     loadImage(imageUrl) {
         this.changeVisibilityScreen(this.element, VISIBLE_SCREEN);
         this.isAllLoaded = false;
         this.totalCounter++;
-        this.totalElement = this.totalCounter;
+        this.totalElement.textContent = this.totalCounter;
         const image = new Image();
 
         image.src = imageUrl;
@@ -48,6 +47,7 @@ class Loader extends Common {
         this.changeVisibilityScreen(this.element, VISIBLE_SCREEN);
         this.isAllLoaded = false;
         this.totalCounter++;
+        this.totalElement.textContent = this.totalCounter;
 
         const audio = new Audio();
 

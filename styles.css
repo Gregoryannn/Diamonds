@@ -217,9 +217,9 @@ button {
     background-image: url('./images/button-exit.png');
 }
 
-.settings-screen__button--is-exit:hover {
+    .settings-screen__button--is-exit:hover {
         background-image: url('./images/button-exit-hover.png');
-}
+    }
 
 .mini-settings-layer {
     top: unset;
@@ -232,24 +232,40 @@ button {
     background-image: url('./images/button-mini-settings.png');
 }
 
-.mini-settings-layer__button:hover {
+    .mini-settings-layer__button:hover {
         background-image: url('./images/button-mini-settings-hover.png');
-}
+    }
 
 .settings-screen__button--is-speed {
     background-image: url('./images/button-speed-fast.png');
 }
 
-.settings-screen__button--is-speed:hover {
+    .settings-screen__button--is-speed:hover {
         background-image: url('./images/button-speed-fast-hover.png');
-}
+    }
 
 .settings-screen__button--is-slow {
     background-image: url('./images/button-speed-slow.png');
 }
 
-.settings-screen__button--is-slow:hover {
+    .settings-screen__button--is-slow:hover {
         background-image: url('./images/button-speed-slow-hover.png');
+    }
+
+.loading-screen {
+    background-image: url('./images/loading.png');
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: rgba(100, 100, 100, .3);
+    backdrop-filter: blur(2px);
+}
+
+.loading-screen__info {
+    margin-top: 257px;
+    color: rgb(175, 228, 35);
+    font-size: 16px;
+    text-align: center;
 }
 
 .hidden {

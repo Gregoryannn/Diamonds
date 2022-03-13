@@ -1,4 +1,6 @@
 import { Common, HIDDEN_CLASS, HIDDEN_SCREEN, VISIBLE_SCREEN } from './Common.esm.js';
+import { Common, HIDDEN_SCREEN, VISIBLE_SCREEN } from './Common.esm.js';
+
 
 const LOADER_ELEMENT_ID = 'js-loading-screen';
 const LOAD_CURRENT_ID = 'js-loading-screen-current';

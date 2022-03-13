@@ -10,7 +10,6 @@ import { resultScreen } from './ResultScreen.esm.js'
 import { userData } from './UserData.esm.js';
 import { mainMenu } from './MainMenu.esm.js';
 import { SWAP_SPEED_FAST_SLOW_BUTTON_ID } from './Settings.esm.js';
-
 export const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1; // first line is invisible
 const LAST_ELEMENT_DIAMONDS_ARRAY = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
@@ -59,23 +58,42 @@ class Game extends Common {
         if (!mouseControler.clicked) {
             return;
         }
+
         const xClicked = Math.floor((mouseControler.x - GAME_BOARD_X_OFFSET) / DIAMOND_SIZE);
         const yClicked = Math.floor((mouseControler.y - GAME_BOARD_Y_OFFSET) / DIAMOND_SIZE);
+
+
         if (!yClicked || xClicked >= DIAMONDS_ARRAY_WIDTH || yClicked >= DIAMONDS_ARRAY_HEIGHT) {
             mouseControler.state = 0;
+
+
             return;
         }
+
+
         if (mouseControler.state === 1) {
             mouseControler.firstClick = {
                 x: xClicked,
                 y: yClicked
             }
+
+            const firstDiamond = mouseControler.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseControler.firstClick.x;
+            this.gameState.getGameBoard()[firstDiamond].alpha = 190;
+
         } else if (mouseControler.state === 2) {
             mouseControler.secondClick = {
                 x: xClicked,
                 y: yClicked
             }
+
+            this.gameState.getGameBoard().some(diamond => {
+                if (diamond.alpha !== 255) {
+                    diamond.alpha = 255
+                }
+            })
+
             mouseControler.state = 0;
+
             if (
                 Math.abs(mouseControler.firstClick.x - mouseControler.secondClick.x) +
                 Math.abs(mouseControler.firstClick.y - mouseControler.secondClick.y) !==
@@ -419,7 +437,6 @@ class Game extends Common {
             speedBtn.classList.add('settings-screen__button--is-slow');
         }
     }
-
     swap(firstDiamond, secondDiamond) {
         [
             firstDiamond.kind,

@@ -14,8 +14,15 @@ export const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1; // first line is invisible
 const LAST_ELEMENT_DIAMONDS_ARRAY = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
 //add speed panel control into settings
+
+
+
 let SWAPING_SPEED = 5;
 const TRANSPARENCY_SPEED = 10;
+
+
+
+
 class Game extends Common {
     constructor() {
         super();
@@ -63,53 +70,51 @@ class Game extends Common {
         const xClicked = Math.floor((mouseControler.x - GAME_BOARD_X_OFFSET) / DIAMOND_SIZE);
         const yClicked = Math.floor((mouseControler.y - GAME_BOARD_Y_OFFSET) / DIAMOND_SIZE);
 
-        if (!yClicked || xClicked >= DIAMONDS_ARRAY_WIDTH || yClicked >= DIAMONDS_ARRAY_HEIGHT) {
-            mouseControler.state = 0;
-            return;
-        }
-
-        if (mouseControler.state === 1) {
-            mouseControler.firstClick = {
-                x: xClicked,
-                y: yClicked
-            }
-        } else if (mouseControler.state === 2) {
-            mouseControler.secondClick = {
-                x: xClicked,
-                y: yClicked
-            }
-            mouseControler.state = 0;
-            if (
-                Math.abs(mouseControler.firstClick.x - mouseControler.secondClick.x) +
-                Math.abs(mouseControler.firstClick.y - mouseControler.secondClick.y) !==
-                1
-            ) {
+            if (!yClicked || xClicked < 0 || xClicked >= DIAMONDS_ARRAY_WIDTH || yClicked >= DIAMONDS_ARRAY_HEIGHT) {
+                mouseControler.state = 0;
                 return;
             }
-            this.swapDiamonds();
-            media.playSwapSound();
-            this.gameState.setIsSwaping(true);
-            this.gameState.decreasePointsMovement();
-            mouseControler.state = 0;
-        }
-        mouseControler.clicked = false;
+
+            if (mouseControler.state === 1) {
+                mouseControler.firstClick = {
+                    x: xClicked,
+                    y: yClicked
+                }
+            } else if (mouseControler.state === 2) {
+                mouseControler.secondClick = {
+                    x: xClicked,
+                    y: yClicked
+                }
+                mouseControler.state = 0;
+                if (
+                    Math.abs(mouseControler.firstClick.x - mouseControler.secondClick.x) +
+                    Math.abs(mouseControler.firstClick.y - mouseControler.secondClick.y) !==
+                    1
+                ) {
+                    return;
+                }
+                this.swapDiamonds();
+                media.playSwapSound();
+                this.gameState.setIsSwaping(true);
+                this.gameState.decreasePointsMovement();
+                mouseControler.state = 0;
+            }
+            mouseControler.clicked = false;
     }
 
-
-    checkDiamond() {
-        if (mouseControler.state === 0 && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()) {
-                  this.gameState.getGameBoard().forEach(diamond => {
+        checkDiamond(){
+            if (mouseControler.state === 0 && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()) {
+                this.gameState.getGameBoard().forEach(diamond => {
                     if (diamond.alpha !== 255) {
                         diamond.alpha = 255;
                     }
                 })
-                return;
-            }else if (mouseControler.state === 1) {
+             
+            } else if (mouseControler.state === 1) {
                 const firstDiamond = mouseControler.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseControler.firstClick.x;
                 this.gameState.getGameBoard()[firstDiamond].alpha = 180;
             }
-        }
-
+    }
 
         findMatches(){
             this.gameState.getGameBoard().forEach((diamond, index, diamonds) => {
@@ -223,8 +228,6 @@ class Game extends Common {
                 }
             })
         }
-
-
         checkPosibilityMovement(){
             if (this.gameState.getIsMoving()) {
                 return true;

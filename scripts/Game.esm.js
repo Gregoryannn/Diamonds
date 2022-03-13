@@ -9,27 +9,22 @@ import { DIAMOND_SIZE, NUMBER_OF_DIAMONDS_TYPES } from './Diamond.esm.js';
 import { resultScreen } from './ResultScreen.esm.js'
 import { userData } from './UserData.esm.js';
 import { mainMenu } from './MainMenu.esm.js';
-
-
-
-
+import { SWAP_SPEED_FAST_SLOW_BUTTON_ID } from './Settings.esm.js';
 
 export const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1; // first line is invisible
 const LAST_ELEMENT_DIAMONDS_ARRAY = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
 //add speed panel control into settings
-const SWAPING_SPEED = 8;
+let SWAPING_SPEED = 5;
 const TRANSPARENCY_SPEED = 10;
-
-
-
-
 class Game extends Common {
     constructor() {
         super();
+        this.isFast = false;
+        this.checkSwapSpeed();
     }
 
-    playLevel(level) {s
+    playLevel(level) {
         const { numberOfMovements, pointsToWin, board } = gameLevels[level - 1];
         window.removeEventListener(DATALOADED_EVENT_NAME, this.playLevel);
         this.gameState = new GameState(level, numberOfMovements, pointsToWin, board, media.diamondsSprite);
@@ -39,9 +34,6 @@ class Game extends Common {
         media.playBackgroundMusic();
         this.animate();
     }
-}
-
-
     animate() {
         this.handleMouseState();
         this.handleMouseClick();
@@ -55,33 +47,24 @@ class Game extends Common {
         this.gameState.getGameBoard().forEach(diamond => diamond.draw());
         this.checkPosibilityMovement();
         this.checkEndOfGame();
-}
-
-
-
+    }
     handleMouseState() {
         const isSwaping = !this.gameState.getIsSwaping();
         const isMoving = !this.gameState.getIsMoving();
         if (mouseControler.clicked && isSwaping && isMoving) {
             mouseControler.state++;
         }
-}
-
-
+    }
     handleMouseClick() {
         if (!mouseControler.clicked) {
             return;
-    }
-
-
+        }
         const xClicked = Math.floor((mouseControler.x - GAME_BOARD_X_OFFSET) / DIAMOND_SIZE);
         const yClicked = Math.floor((mouseControler.y - GAME_BOARD_Y_OFFSET) / DIAMOND_SIZE);
         if (!yClicked || xClicked >= DIAMONDS_ARRAY_WIDTH || yClicked >= DIAMONDS_ARRAY_HEIGHT) {
             mouseControler.state = 0;
             return;
-    }
-
-
+        }
         if (mouseControler.state === 1) {
             mouseControler.firstClick = {
                 x: xClicked,
@@ -100,21 +83,14 @@ class Game extends Common {
             ) {
                 return;
             }
-
-
-
             this.swapDiamonds();
             media.playSwapSound();
-
             this.gameState.setIsSwaping(true);
             this.gameState.decreasePointsMovement();
             mouseControler.state = 0;
         }
         mouseControler.clicked = false;
-}
-
-
-
+    }
     findMatches() {
         this.gameState.getGameBoard().forEach((diamond, index, diamonds) => {
             if (diamond.kind === EMPTY_BLOCK || index < DIAMONDS_ARRAY_WIDTH || index === LAST_ELEMENT_DIAMONDS_ARRAY) {
@@ -143,11 +119,7 @@ class Game extends Common {
                 }
             }
         });
-}
-
-
-
-
+    }
     swapDiamonds() {
         const firstDiamond = mouseControler.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseControler.firstClick.x;
         const secondDiamond = mouseControler.secondClick.y * DIAMONDS_ARRAY_WIDTH + mouseControler.secondClick.x;
@@ -172,11 +144,7 @@ class Game extends Common {
                 this.gameState.setIsMoving(true);
             }
         })
-}
-
-
-
-
+    }
     hideAnimation() {
         if (this.gameState.getIsMoving()) {
             return;
@@ -187,22 +155,14 @@ class Game extends Common {
                 this.gameState.setIsMoving(true);
             }
         })
-}
-
-
-
-
+    }
     countScores() {
         this.scores = 0;
         this.gameState.getGameBoard().forEach(diamond => this.scores += diamond.match);
         if (!this.gameState.getIsMoving() && this.scores) {
             this.gameState.increasePlayerPoints(this.scores);
         }
-}
-
-
-
-
+    }
     revertSwap() {
         if (this.gameState.getIsSwaping() && !this.gameState.getIsMoving()) {
             if (!this.scores) {
@@ -211,10 +171,7 @@ class Game extends Common {
             }
             this.gameState.setIsSwaping(false);
         }
-}
-
-
-
+    }
     clearMatched() {
         if (this.gameState.getIsMoving()) {
             return;
@@ -232,7 +189,6 @@ class Game extends Common {
                 }
             }
         });
-
         this.gameState.getGameBoard().forEach((diamond, index) => {
             const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH) * DIAMOND_SIZE;
             if (index < DIAMONDS_ARRAY_WIDTH) {
@@ -247,20 +203,14 @@ class Game extends Common {
             }
         })
     }
-
-
-
-
     checkPosibilityMovement() {
         if (this.gameState.getIsMoving()) {
             return true;
         }
-
         this.isPossibleToMove = this.gameState.getGameBoard().some((diamond, index, diamonds) => {
             if (diamond.kind === EMPTY_BLOCK) {
                 return false;
             }
-
             // move right => check in row
             if (
                 index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 3
@@ -269,7 +219,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move right => check if is in the middle of the column
             if (
                 index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
@@ -280,7 +229,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move right => check if is on the top of the column
             if (
                 index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
@@ -290,7 +238,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move right => check if is on the bottom of the column
             if (
                 index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
@@ -300,7 +247,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move left => check in row 
             if (
                 index % DIAMONDS_ARRAY_WIDTH > 2
@@ -309,7 +255,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move left => check if is in the middle of the column
             if (
                 index % DIAMONDS_ARRAY_WIDTH
@@ -320,7 +265,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move left => check if is on the top of the column
             if (
                 index % DIAMONDS_ARRAY_WIDTH
@@ -330,7 +274,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move left => check if is on the bottom of the column
             if (
                 index % DIAMONDS_ARRAY_WIDTH
@@ -340,7 +283,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move down => check if is in column 
             if (
                 Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 3
@@ -349,7 +291,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move down => check if is in the middle of the row
             if (
                 index % DIAMONDS_ARRAY_WIDTH
@@ -360,7 +301,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move down => check if is in the left edge of the row
             if (
                 index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 2
@@ -370,7 +310,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move down => check if is in the right edge of the row
             if (
                 index % DIAMONDS_ARRAY_WIDTH > 1
@@ -380,7 +319,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move up => check in colum
             if (
                 Math.floor(index / DIAMONDS_ARRAY_WIDTH) > 3
@@ -389,7 +327,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move up => check if is in the middle of the row
             if (
                 index % DIAMONDS_ARRAY_WIDTH
@@ -400,7 +337,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move up => check if is in the left edge of the row
             if (
                 index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 2
@@ -410,7 +346,6 @@ class Game extends Common {
             ) {
                 return true;
             }
-
             //move up => check if is in the right edge of the row
             if (
                 index % DIAMONDS_ARRAY_WIDTH > 1
@@ -420,37 +355,24 @@ class Game extends Common {
             ) {
                 return true;
             }
-
-                return false;
+            return false;
         })
-
-
         if (!this.isPossibleToMove) {
             this.gameState.mixDiamonds();
-
         }
     }
-
-
-
-
-
-
 
     checkEndOfGame() {
         if (!this.gameState.getLeftMovement() && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()) {
             media.isInLevel = false;
             media.stopBackgroundMusic();
-
+            const isPlayerWinner = this.gameState.isPlayerWinner();
             const currentLevel = Number(this.gameState.level);
-
-
             if (isPlayerWinner && gameLevels[currentLevel]) {
                 if (!userData.checkAvailabilityLevel(currentLevel + 1)) {
                     userData.addNewLevel(currentLevel + 1);
                 }
             }
-
             if (userData.getHighScores(this.gameState.level) < this.gameState.getPlayerPoints()) {
                 userData.setHighScore(currentLevel, this.gameState.getPlayerPoints());
             }
@@ -459,8 +381,44 @@ class Game extends Common {
             this.animationFrame = window.requestAnimationFrame(() => this.animate());
         }
     }
+    toggleSwapSpeed() {
+        if (this.isFast) {
+            SWAPING_SPEED = 5;
+            this.checkSwapSpeed();
+        } else {
+            SWAPING_SPEED = 20;
+            this.checkSwapSpeed();
+        }
+    }
+    increaseSwapSpeed() {
+        if (SWAPING_SPEED >= 20) return;
+        SWAPING_SPEED++
+        this.checkSwapSpeed();
+    }
 
+    decreaseSwapSpeed() {
+        if (SWAPING_SPEED <= 5) return;
 
+        SWAPING_SPEED--
+        this.checkSwapSpeed();
+    }
+    checkSwapSpeed() {
+        if (SWAPING_SPEED >= 12) {
+            this.isFast = true;
+        } else {
+            this.isFast = false;
+        }
+
+        const speedBtn = this.bindToElement(SWAP_SPEED_FAST_SLOW_BUTTON_ID);
+
+        if (this.isFast) {
+            speedBtn.classList.remove('settings-screen__button--is-slow');
+            speedBtn.classList.add('settings-screen__button--is-speed');
+        } else {
+            speedBtn.classList.remove('settings-screen__button--is-speed');
+            speedBtn.classList.add('settings-screen__button--is-slow');
+        }
+    }
 
     swap(firstDiamond, secondDiamond) {
         [
